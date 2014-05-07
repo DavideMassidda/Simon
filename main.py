@@ -106,8 +106,11 @@ while count < numStim:  # Inizia la presentazione degli stimoli
     for i in range(4):
         fixation.draw()     # Disegna il punto di fissazione
         screen.flip()       # Riavvia la finestra
+        fixation.draw()     # (Ripetizione per bug Windows)
+        screen.flip()       # (Ripetizione per bug Windows)
         core.wait(ISI)      # Blocca l'esecuzione per ISI
         event.clearEvents() # Ripulisce tutte le precedenti registrazioni di pulsanti
+        fixation.draw()     # Disegna il punto di fissazione
         if Stim[seq][i] == 0: # Cerchio
             exactKey = buttons[0] # Pulsante di risposta corretto
             if Side[seq][i] == 0:
@@ -124,15 +127,14 @@ while count < numStim:  # Inizia la presentazione degli stimoli
             else:
                 # Quadrato a destra
                 visual.Rect(screen,width=160,height=160,pos=(300,0),fillColor=stimColor,lineColor=stimColor).draw()
-        fixation.draw()         # Disegna il punto di fissazione
         screen.flip()           # Riavvia la finestra
         timer.reset()           # Azzera il timer
         t0 = timer.getTime()    # Avvia il timer
         respKey = event.waitKeys(keyList=buttons) # Attende la risposta
         t1 = timer.getTime()    # Blocca il timer
         if isTrain == 0:        # Se si deve registrare la risposta
-            respTime = (t1-t0)*1000 # Calcolo tempi di reazione
-            respTime = str(respTime)
+            respTime = (t1-t0)*1000     # Calcolo tempi di reazione
+            respTime = str(respTime)    # Trasformazione variabile RT in stringa
             respTime = respTime.replace('.',',') # Sostituzione punti in virgoole nel decimale per csv2
             score = respKey[0] == exactKey # Calcolo score
             if score == True:
