@@ -1,0 +1,9 @@
+Benvenuto/a.
+
+Ti verranno presentate due figure geometriche: un quadrato e un cerchio. Le due figure potranno comparire solo una per volta, alla destra oppure alla sinistra di un punto di fissazione centrale.
+
+Tenendo lo sguardo fisso sul punto di fissazione, ti chiediamo di indicare quale delle due figure e' comparsa sullo schermo: utilizza il pulsante A per rispondere "quadrato" e il pulsante L per rispondere "cerchio".
+
+Ti chiediamo di rispondere cercando di essere il piu' rapido e accurato possibile. Tieni costantemente gli indici poggiati sui pulsanti e preparati a rispondere.
+
+Premi la barra spaziatrice per iniziare la prova.
