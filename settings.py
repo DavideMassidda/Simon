@@ -55,9 +55,9 @@ settingsLabel = Label(infoFrame1,text="Experiment settings",font=sectionFont)
 
 # Variabili
 MonitorResW = IntVar()
-MonitorResW.set(1366)
+MonitorResW.set(1440)
 MonitorResH = IntVar()
-MonitorResH.set(768)
+MonitorResH.set(900)
 ScreenCol = StringVar()
 ScreenCol.set('#b4b4b4')
 StimCol = StringVar()
