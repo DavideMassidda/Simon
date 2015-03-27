@@ -8,7 +8,7 @@ from settings import * # Carica la maschera per le impostazioni
 # --------------------------------------
 
 buttons = ['l','a']         # Pulsanti di risposta (L:Dx,A:Sx)
-subjNum = SubjCode.get()    # Codice numerico del soggetto
+subjCode = SubjCode.get()   # Codice numerico del soggetto
 seq = FirstSeq.get()        # Codice sequenza di start
 isTrain = IsTrain.get()     # Indica se registrare le risposte
 ISI =  Isi.get()            # Intervallo inter-stimolo (sec)
@@ -143,7 +143,7 @@ while count < numStim:  # Inizia la presentazione degli stimoli
                 score = 0
             # Registrazione dati su file
             dataFile = open('data/expdata.csv','a')
-            dataFile.write("%s;%s;%s;%s;%s;%s\n"%(subjNum,Stim[seq][i]+1,Side[seq][i]+1,count,score,respTime))
+            dataFile.write("%s;%s;%s;%s;%s;%s\n"%(subjCode,Stim[seq][i]+1,Side[seq][i]+1,count,score,respTime))
             dataFile.close()
     # Si aggiorna il valore di seq
     seq = seq+1

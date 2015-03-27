@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from Tkinter import *
-import tkFont
+from Tkinter import * # per costruire la maschera
+import tkMessageBox # per finestre di warning
+import tkFont # per le etichette
+from os import path, makedirs # per gestire i file di dati
 
 # Toplevel
 maskInfo = Tk()
@@ -55,9 +57,9 @@ settingsLabel = Label(infoFrame1,text="Experiment settings",font=sectionFont)
 
 # Variabili
 MonitorResW = IntVar()
-MonitorResW.set(1440)
+MonitorResW.set(1366)
 MonitorResH = IntVar()
-MonitorResH.set(900)
+MonitorResH.set(768)
 ScreenCol = StringVar()
 ScreenCol.set('#b4b4b4')
 StimCol = StringVar()
@@ -95,28 +97,44 @@ seqCell  = Entry(infoFrame1,textvariable=FirstSeq,bg="#ffff60",width=9,cursor="x
 istrialBut = Checkbutton(infoFrame1,text="Training session",variable=IsTrain)
 
 # ------------------------------------
-# Pulsante
+# Funzioni e pulsante di avvio
 # ------------------------------------
-goMain = 0
-# Se goMain rimane uguale a zero alla fine dello script, l'applicazione verra' chiusa.
-# Questo serve perche', se la maschera info viene chiusa dal pulsante x, quindi senza
-# premere il pulsante send, la successiva esecuzione del programma non deve avvenire.
-def WriteInfo():
-    global maskInfo,SubjCode,goMain,IsTrain
-    goAhead = 0
-    if IsTrain.get() == 1:
-        goAhead = 1
-    else:
-        if SubjCode.get() != 0 and FirstSeq.get() != 0:
-            dataFile = open("data/subjects.csv","a")
-            dataFile.write("%g;%g;%g;%s;%g\n"%(SubjCode.get(),Year.get(),Age.get(),Sex.get(),FirstSeq.get()))            
-            dataFile.close()
-            goAhead = 1
-    if goAhead == 1 or IsTrain == 1:
-        maskInfo.quit()
-        goMain = 1
 
-infoBut = Button(buttonFrame,text="START",default="active",bg="#5a5a5a",fg="white",command=WriteInfo)
+def CloseGUI():
+    maskInfo.destroy()
+    quit()
+
+def StartSession():
+    if IsTrain.get() == 1:
+        maskInfo.quit() # Go to the task
+    else:
+        checkSubj = SubjCode.get() != 0
+        checkFirstSeq = FirstSeq.get() > 0 and FirstSeq.get() <= 8
+        if checkSubj == True and checkFirstSeq == True:
+            if not path.exists("data"):
+                makedirs("data")
+            if path.isfile("data/subjects.csv") == False:
+                subjFile = open("data/subjects.csv","a")
+                subjFile.write("%s\n"%("Subject;Birth;Age;Sex;FirstSeq"))
+                subjFile.close()
+            if path.isfile("data/expdata.csv") == False:
+                dataFile = open("data/expdata.csv","a")
+                dataFile.write("%s\n"%("Subject;Stimulus;Side;Trial;Score;RT"))            
+                dataFile.close()
+            subjFile = open("data/subjects.csv","a")
+            subjFile.write("%g;%g;%g;%s;%g\n"%(SubjCode.get(),Year.get(),Age.get(),Sex.get(),FirstSeq.get()))
+            subjFile.close()
+            maskInfo.quit() # Go to the task
+        else:
+            if checkSubj == False:
+                msg = "You must specify a code for participant."
+            elif checkFirstSeq == False:
+                msg = "You must specify the code of the first sequence (from 1 to 8)."
+            warning = Tk()
+            warning.wm_withdraw()
+            tkMessageBox.showerror(title="Error message",message=msg,parent=warning)
+
+infoBut = Button(buttonFrame,text="START",default="active",bg="#5a5a5a",fg="white",command=StartSession)
 
 # ------------------------------------
 # Costruzione interfaccia
@@ -159,8 +177,6 @@ buttonFrame.pack()
 infoBut.grid()
 
 # Loop e chiusura maschera
+maskInfo.protocol('WM_DELETE_WINDOW', CloseGUI)
 maskInfo.mainloop()
-if goMain == 0:
-    quit()
-else:
-    maskInfo.destroy()
+maskInfo.destroy()

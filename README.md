@@ -7,8 +7,8 @@ ABOUT THE PROGRAM
 * This is a program wrote in python language using the PsychoPy module.
   For more information about PsychoPy, please visit the project page at www.psychopy.org.
 * Tested on Linux/Ubuntu 12.04 and MS Windows 7 with Python 2.7
-* Version: 0.0
-* Date: May 7, 2014
+* Version: 0.1
+* Date: March 27, 2015
 
 HOW TO START THE PROGRAM
 
